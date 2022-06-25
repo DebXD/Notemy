@@ -1,0 +1,31 @@
+
+html, body{ 
+    background-color: white;
+}
+
+div{
+    margin-top: 30px;
+}
+.btn1{
+    background-color: #0a86d3;
+    font-size: 15px;
+    border-radius: 17px;
+    padding: 15px;
+    
+}
+
+.btn{
+    font-size: 15px;
+    border-radius: 17px;
+    padding: 15px;
+    
+}
+.list{
+    margin-top: 25px;
+    font-size: 16px;
+}
+.listupdatebtn, .listdeletebtn{
+    margin-top: 10px;
+    font-size: medium;
+
+}
