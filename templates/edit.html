@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head%}
+
+<h2 style=" text-align:center">EDIT PAGE</h2>
+
+{% endblock %}
+
+{%block body %}
+
+<form style="text-align:center"  class="form-group" action="/add_notes/" method="POST" >
+    <div class="col-xs-4">
+      
+      <label>Update Title</label>
+        <input type="text" class="form-control" name="Title" value="{{title}}">
+    </div>
+    
+    <div class="col-xs-4">
+      <label>Update Note</label>
+        <textarea class="form-control" id="textarea" rows="2"  name="Note">{{note}}</textarea>
+        <a href="/add_notes/">
+          <button  style="text-align:center", class="btn btn-success" type="submit" action="/add_notes/">Save</button>
+        </a>
+    </div>
+    
+</form>
+
+
+<div>
+<a href="/add_notes/">
+  <button style="text-align:center" type="button" class="btn btn-primary">Back</button>
+</a>
+</div>
+
+{% endblock %}

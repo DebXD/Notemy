@@ -16,16 +16,16 @@
 </form>
 -->
 
-<form style="text-align:center"  class="form-group" action="http://localhost:5000/add_notes/" method="POST">
+<form style="text-align:center"  class="form-group" action="/add_notes/" method="POST">
   <div class="col-xs-4">
     
-    <label for="exampleFormControlInput1">Enter Title</label>
+    <label>Enter Title</label>
       <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="eg: My Title" name="Title">
   </div>
   
   <div class="col-xs-4">
-    <label for="exampleFormControlTextarea1">Enter Note</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="eg: My Notes" name="Note"></textarea>
+    <label>Enter Note</label>
+      <textarea class="form-control" id="textarea" rows="2" placeholder="eg: My Notes" name="Note"></textarea>
     <button  style="text-align:center", class="btn btn-success" type="submit">Save</button>
   </div>
   
@@ -38,7 +38,7 @@
       YOUR NOTES
     </strong>
   </p>
-  <p style="text-align:center">Last saved Note was : <strong>{{titles}}</strong> {{notes}} </p>
+  <p style="text-align:center">Last saved Note was :<br> Title : <strong>{{titles}}</strong> <br> Note : {{notes}} </p>
 </div>
 
 
@@ -46,7 +46,7 @@
   <a href="/">
     <button type="button" class="btn btn-primary">Home</button>
   </a>
-
+</div>
 
 <div>
 <strong>Your have total of {{note_count}} notes </strong>
@@ -58,7 +58,7 @@
         
           {% if note not in printed_list and i not in printed_list %}
 
-            <li class="list">Note {{note.No}}: <strong>{{note.Titles}}</strong> {{note.Notes}}</li>
+            <li class="list"><strong>{{note.Titles}}</strong><br>{{note.Notes}}</li>
             <a href ="/add_notes/edit/{{note.No}}"
             <button type="button" action="/add_notes/edit"class="btn btn-warning name="edit" method="POST">EDIT</button>
             </a>
@@ -68,7 +68,7 @@
             </a>
             {% set note_no = note.NO %}
             
-            <p hidden> {{ printed_list.append(i) }}</p>
+            <p hidden> {{ printed_list.append(i) }} </p>
             <p hidden> {{ printed_list.append(note) }}</p>
             
           {% endif %}

@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/note.sql'
-#app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app)
 
@@ -61,16 +61,48 @@ def add_notes():
 
 @app.route("/add_notes/delete/<int:note_no>", methods=["POST", "GET"])
 def notedel(note_no):
-    Notesdb.query.filter_by(No=note_no).delete()
-    db.session.commit()
+    try:
+        Notesdb.query.filter_by(No=note_no).delete()
+        db.session.commit()
     #if found_note != None:
     #    Notesdb.query.filter_by(No=note_no).delete()
-    return redirect("/add_notes/")
+        return redirect("/add_notes/")
+    except Exception as e:
+        return "Something goes wrong, failed to delete your note"
+
 
 @app.route("/add_notes/edit/<int:note_no>", methods=["POST", "GET"])
 def note_edit(note_no):
-    if request.method == "POST":
-        return f"You are trying to edit {note_no} note"
+
+    note_data = Notesdb.query.filter_by(No=note_no).first()
+    Notesdb.query.filter_by(No=note_no).delete()
+    db.session.commit()
+    if  request.method == "POST":
+       
+        note_data.No = note_data.No
+        note_data.Titles = request.form.get("Title")
+        note_data.Notes= request.form.get("Note")
+        updated_note = Notesdb( note_data.No, note_data.Titles, note_data.Notes )
+        
+        db.session.add(updated_note)
+        
+        #if titles != note_data.Titles and notes != note_data.Notes:
+        db.session.commit()
+        flash("Updated Successfully")
+        return render_template("/add_notes/")
+    else:
+
+        return render_template("edit.html", title=note_data.Titles, note=note_data.Notes, note_no =note_no)
+    
+        #titles = request.form.get("Title")
+ 
+        #edited_note = Notesdb(titles, notes)
+        #db.session.update(edited_note)
+
+        #return redirect("/add_notes/")
+
+
+
 
 
 
