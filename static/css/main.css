@@ -1,31 +1,26 @@
 
-html, body{ 
-    background-color: white;
-}
-
-div{
-    margin-top: 30px;
-}
-.btn1{
-    background-color: #0a86d3;
-    font-size: 15px;
-    border-radius: 17px;
-    padding: 15px;
-    
-}
-
 .btn{
-    font-size: 15px;
-    border-radius: 17px;
-    padding: 15px;
-    
+  margin-top: 10px;
 }
-.list{
-    margin-top: 25px;
-    font-size: 16px;
+
+#logout-btn{
+  margin-left: 94%;
+
 }
-.listupdatebtn, .listdeletebtn{
-    margin-top: 10px;
-    font-size: medium;
+
+
+.note-form{
+  margin-right: 50%;
+  margin-left: 20px;
+}
+.title-inputbx{
+  margin-top: 0px;
+}
+.note-inputbx{
+  margin-top: 15px;
+}
+.label-title{
+  text-align: center;
+  margin-left: 50px;
 
 }

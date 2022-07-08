@@ -3,27 +3,30 @@
 
 {% block head %}
 
-<h1 style="text-align:center">Notes</h1>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" href="/add_notes">Add Note</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Create Account</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-        
-      </ul>
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    
+    <a class="nav-link active" href="/register/">
+      <button type="button" class="btn btn-primary">Sign Up</button>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/login/">
+      <button type="button" class="btn btn-primary">Login</button>
+    </a>
+  </li>
+</ul>
 
-</nav>
+
+<h1 style="text-align:center" class="text-3xl font-bold underline"> Welcome to Notem</h1>
+
+  {% block title%}{% endblock %}
+
 {% endblock %}
 
 {% block body %}
 <div>
-  <p>git inventore necessitatibus exercitationem nihil, facilis ipsa laudantium modi eaque illum accusamus.</p>
+  
 
 </div>
 

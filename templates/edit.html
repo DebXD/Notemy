@@ -2,13 +2,14 @@
 
 {% block head%}
 
-<h2 style=" text-align:center">EDIT PAGE</h2>
+<h1 class="text-3xl font-bold underline">
+EDIT PAGE</h1>
 
 {% endblock %}
 
 {%block body %}
 
-<form style="text-align:center"  class="form-group" action="/add_notes/" method="POST" >
+<form style="text-align:center"  class="form-group"  method="POST" >
     <div class="col-xs-4">
       
       <label>Update Title</label>
@@ -18,18 +19,11 @@
     <div class="col-xs-4">
       <label>Update Note</label>
         <textarea class="form-control" id="textarea" rows="2"  name="Note">{{note}}</textarea>
-        <a href="/add_notes/">
-          <button  style="text-align:center", class="btn btn-success" type="submit" action="/add_notes/">Save</button>
+        <a href="/notes/">
+          <button  style="text-align:center", class="btn btn-success" type="submit" action="/notes/">Save</button>
         </a>
     </div>
     
 </form>
-
-
-<div>
-<a href="/add_notes/">
-  <button style="text-align:center" type="button" class="btn btn-primary">Back</button>
-</a>
-</div>
 
 {% endblock %}

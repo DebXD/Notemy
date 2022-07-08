@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head %}
+<h2 style="text-align: center;">Sign Up</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for msg in messages%}
+      <p style="text-align: center; font-family:helvetica; color: yellow;">{{msg}}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+
+{% endblock %}
+
+{% block body%}
+
+<form  class="form-group" method="POST">
+  <div class="form-group col-lg-4">
+      
+    <label>*USERNAME</label>
+      <input type="text" class="form-control" placeholder="Username" name="username">
+  </div>
+    <div class="form-group col-lg-4">
+      
+      <label>*EMAIL</label>
+        <input type="text" class="form-control" placeholder="Email" name="email">
+    </div>
+    
+    <div class="form-group col-lg-4">
+      <label>*PASSWORD</label>
+      <input type="text" class="form-control" placeholder="Password" name="password">
+      <button  style="text-align:center", class="btn btn-success" type="submit">Sign Up</button>
+    </div>
+    
+  </form>
+  
+
+{% endblock %}

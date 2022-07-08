@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+<h2 style="text-align: center;">Login</h2>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  {% for msg in messages%}
+  <p  style="font-family:futura; color: orange";>{{msg}}</p>
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+{% endblock %}
+
+{% block body %}
+<form method = "POST">
+  <div class="mb-3">
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Email">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="session_checkbox" value="yes">
+    <label class="form-check-label" for="exampleCheck1">Remember me!</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
