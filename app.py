@@ -1,6 +1,4 @@
 
-from email.policy import EmailPolicy
-from enum import unique
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 
 from flask_sqlalchemy import SQLAlchemy
@@ -39,10 +37,6 @@ class Notesdb(db.Model):
         self.Notes = Notes
         self.User_id = User_id
 
-    #def __init__(self,Titles, Notes):
-        #self.Titles = Titles
-        #self.Notes = Notes
-    
 
     
    

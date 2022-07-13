@@ -1,26 +1,97 @@
-
-.btn{
-  margin-top: 10px;
+html body{
+  font-family: Finlandica;
 }
 
 #logout-btn{
-  margin-left: 94%;
+  position: absolute;
+  right: 0;
+  margin-top: 60px;
+}
+.email {
+  position: absolute;
+  right: 0;
+  margin-top: 30px;
+}
+
+
+#left-nav-title{
+  padding-left: 10px;
+}
+
+.navbar-brand{
+  font-family: Cookie;
+}
+
+
+.container-md{
+  position:relative
+
+
+
+}
+
+.col-lg-4 {
+  padding-top : 20px;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+
+
+}
+
+.btn.btn-success{
+  margin-top: 25px;
+  
+}
+.form-control{
 
 }
 
 
-.note-form{
-  margin-right: 50%;
-  margin-left: 20px;
-}
-.title-inputbx{
-  margin-top: 0px;
-}
-.note-inputbx{
-  margin-top: 15px;
-}
-.label-title{
+
+.section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; 
+  }
+  .section h4{
   text-align: center;
-  margin-left: 50px;
+  font-size: 4rem;
+  color: white;
+  font-family: Cookie;
+  z-index: 1; 
+}
 
+.index-btn{
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  margin-right: 100px;
+  margin-left: 65px;
+}
+.btn .btn-outline-dark{
+  margin-left: 100px;
+  padding: 20px;
+  right: 20px;
+}
+
+
+.video-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.color-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: lightgrey;
+  width: 100%;
+  height: 100vh;
+  opacity: 0.1;
 }

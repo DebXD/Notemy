@@ -3,31 +3,36 @@
 
 {% block head %}
 
-<ul class="nav justify-content-end">
-  <li class="nav-item">
-    
-    <a class="nav-link active" href="/register/">
-      <button type="button" class="btn btn-primary">Sign Up</button>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="/login/">
-      <button type="button" class="btn btn-primary">Login</button>
-    </a>
-  </li>
-</ul>
 
+{% block title%}{% endblock %}
 
-<h1 style="text-align:center" class="text-3xl font-bold underline"> Welcome to Notem</h1>
-
-  {% block title%}{% endblock %}
 
 {% endblock %}
 
 {% block body %}
-<div>
+
+
+<div class="section">
+ 
   
+  <div class=" w3-row index-btn">
+    <h4>Welcome To Notemy</h4>
+    <a href="/register/">
+      <button  style="text-align:center; margin-bottom: 10px;  margin-right: 10px;" class="btn btn-outline-dark;" type="submit">Sign Up</button>
+    </a>
+    <a href="/login/">
+      <button  style="text-align:center; margin-bottom: 10px; margin-right: 10px;", class="btn btn-outline-red;" type="submit">Login</button>
+    </a>
+  </div>
+
+  <div class="video-container">
+   
+      <video autoplay loop muted id="video" poster="/static/img/index-bg.png">
+          <source src="/static/vids/rain.mp4" type="video/mp4">
+      </video>
+  </div>
 
 </div>
+
 
 {% endblock %}
