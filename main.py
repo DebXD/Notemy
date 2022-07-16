@@ -2,15 +2,21 @@
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 
 from flask_sqlalchemy import SQLAlchemy
+from decouple import config
+
 
 app = Flask(__name__)
-app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/database.sql'
-app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+USERNAME = config('username')
+PASSWORD = config('password')
+HOST = config('host')
+DB_NAME = config('db_name')
+app.config ['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}/{DB_NAME}'
+app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "fs67ho3*Srb8bv-3r)=+ak"
 
 
 db = SQLAlchemy(app)
-
+db.create_all()
 
 class Userdb(db.Model):
     No = db.Column(db.Integer, primary_key=True)
@@ -38,6 +44,7 @@ class Notesdb(db.Model):
         self.User_id = User_id
 
 
+db.create_all()
     
    
 @app.route("/")
@@ -204,6 +211,10 @@ def note_edit(note_no):
         return redirect("/notes/")
     else:
         return render_template("edit.html", title=note_data_obj.Titles, note=note_data_obj.Notes)
+
+@app.route("/about/")
+def about():
+    return render_template("about.html")
 
 if __name__ == "__main__":
     db.create_all()

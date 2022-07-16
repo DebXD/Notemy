@@ -5,7 +5,7 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
   {% for msg in messages%}
-  <p  style="text-align: center; font-family:Finlandica; color: orange";>{{msg}}</p>
+  <p  style="text-align: center; font-family:Finlandica; color: orange; background-color: black; margin-bottom: 0px;">{{msg}}</p>
   {% endfor %}
 {% endif %}
 {% endwith %}
@@ -14,14 +14,11 @@
 <style>
   .bg-img{
     background-image: url("/static/img/login-bg.jpg") ;
+    background-color: black;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
-
-  }
-  .nav{
-    background-image: inherit;
 
   }
 </style>
@@ -32,26 +29,26 @@
 <div class="bg-img">
   <div class="container-sm">
     <form method="POST">
-      <h2 style="text-align: center;">Login</h2>
+      <h2 style="text-align: center; color: white;">Login</h2>
 
         <div class="col-lg-4">
-          <label class="form-label">Email</label>
+          <label class="form-label" style="color: white;">Email</label>
           <input type="email" class="form-control" placeholder="Email" name="email" required>
         </div>
     
         <div class="col-lg-4">
-          <label class="form-label">Password</label>
+          <label class="form-label" style="color: white;">Password</label>
           <input type="password" class="form-control" placeholder="Password" name="password" required>
           <button  style="text-align:center", class="btn btn-success" type="submit">Submit</button>
         </div>
 
         <div class="col-lg-4">
           <input type="checkbox" class="form-check-input" id="exampleCheck1" name="session_checkbox" value="yes">
-          <label class="form-check-label" for="exampleCheck1">Remember me!</label>
+          <label class="form-check-label" for="exampleCheck1" style="color: white;" >Remember me!</label>
         </div>
 
         <div class="col-lg-4">
-          <p class="paragraph"">Don't have an account!<br>
+          <p class="paragraph" style="color: white;">Don't have an account!<br>
             <a href="/register/"><strong>Register</strong></a> here.
           </p>
         </div>

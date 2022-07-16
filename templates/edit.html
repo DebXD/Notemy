@@ -1,29 +1,45 @@
 {% extends "base.html" %}
 
 {% block head%}
+<style>
+  .bg-img{
+    background-image: url("/static/img/notes-bg.jpg") ;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
 
-<h1 class="text-3xl font-bold underline">
-EDIT PAGE</h1>
-
+    .nav{
+      background-image: inherit;
+  
+    
+  }
+</style>
 {% endblock %}
 
 {%block body %}
-
-<form style="text-align:center"  class="form-group"  method="POST" >
-    <div class="col-xs-4">
-      
-      <label>Update Title</label>
-        <input type="text" class="form-control" name="Title" value="{{title}}">
-    </div>
-    
-    <div class="col-xs-4">
-      <label>Update Note</label>
-        <textarea class="form-control" id="textarea" rows="2"  name="Note">{{note}}</textarea>
-        <a href="/notes/">
-          <button  style="text-align:center", class="btn btn-success" type="submit" action="/notes/">Save</button>
-        </a>
-    </div>
-    
+<div class="bg-img">
+<div class="container mt-3">
+  <form method="POST">
+  <h2 style="text-align: center;">EDIT NOTE</h2>
+  
+  <div class="input-group mb-3">
+    <span class="input-group-text">Title</span>
+    <input type="text" class="form-control" name="Title" value="{{title}}">
+  </div>
+  <div class="input-group input-group-md mb-3">
+    <span class="input-group-text">Note</span>
+    <textarea class="form-control" id="textarea" rows="3" name="Note">{{note}}</textarea>
+  </div>
+  <div style="text-align: center;">
+    <a href="/notes/">
+    <button class="btn btn-success" style="margin-top: 0px;" type="submit">Save</button>
+    </a>
+  </div>
 </form>
+
+</div>
+</div>
 
 {% endblock %}

@@ -2,24 +2,30 @@
 
 {% block head %}
 
-<div class="container">
-<a href="/logout/">
-    <button id="logout-btn" class="btn btn-outline-danger">Logout</button>
-</a>
-<div class="email">
-  <p>{{username}}</p>
-</div>
-</div>
+
 
 
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% for msg in messages%}
-      <p style="text-align: center; font-family:Finlandica; color:green;">{{msg}}</p>
+      <p style="text-align: center; font-family:Finlandica; color:green; margin-bottom: 0px;">{{msg}}</p>
       {% endfor %}
     {% endif %}
   {% endwith %}
+
+
+
+ 
+  <div class="container">
+    <a href="/logout/">
+        <button id="logout-btn" class="btn btn-outline-danger">Logout</button>
+    </a>
+    <div class="email">
+      <p>{{username}}</p>
+    </div>
+  </div>
+  
 
 
 {% endblock %}
@@ -27,29 +33,26 @@
 {% block body %}
 
 
-<h3 style="text-align: center;">Notes</h3>
-<div class="row">
 
-<form class="note-form" action="/notes/" method="POST">
 
-  <div class="col-lg-4 col-lg-offset-4">
-    
-    <label class="label-title">Enter Title</label>
-      <input type="text" class="form-control" placeholder="Title" name="Title">
-  </div>
+<div class="container mt-3">
+  <form method="POST">
+  <h2 style="text-align: center; margin-top: 60px;">ADD NOTE</h2>
   
-  <div class="col-lg-4 col-lg-offset-4">
-    <label class="label-note">Enter Note</label>
-      <textarea class="form-control" id="textarea" rows="2" placeholder="Note" name="Note"></textarea>
-    <button class="btn btn-success float-right" type="submit">Save</button>
+  <div class="input-group mb-3">
+    <span class="input-group-text">Title</span>
+    <input type="text" class="form-control" placeholder="Title" name="Title">
   </div>
-  
+  <div class="input-group input-group-md mb-3">
+    <span class="input-group-text">Note</span>
+    <textarea class="form-control" id="textarea" rows="3" placeholder="Note" name="Note"></textarea>
+  </div>
+  <div style="text-align: center;">
+    <button class="btn btn-success" style="margin-top: 0px;" type="submit">Save</button>
+  </div>
 </form>
 
 </div>
-
-
-
 
 <!-- 
 <form action="/add_notes/" method="POST"> 
@@ -64,36 +67,56 @@
 -->
 
 
-
+<!--
 <div>
-  <p style="text-align:center">
-    <strong>
-      YOUR NOTES
-    </strong>
-  </p>
   <p style="text-align:center">Last saved Note was :<br> Title : <strong>{{titles}}</strong> <br> Note : {{notes}} </p>
 </div>
+-->
 
+<div style="text-align: center; margin-top: 20px;">
+  <h3>
+    YOUR NOTES
+  </h3>
+</div>
 
+<div style="text-align: center;">
+<strong>Total Notes : {{note_count}}</strong>
 
-<div>
-<strong>Your have total of {{note_count}} notes </strong>
-  <ul>
+<div class="container mt-3">
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>N0</th>
+        <th>TITLE</th>
+        <th>NOTES</th>
+        <th>OPTION</th>
+      </tr>
+    </thead>
+
     {% set printed_list = [] %}
 
       {% for i in range(note_count) %}
         {% for note in note_list %}
         
           {% if note not in printed_list and i not in printed_list %}
-
-            <li class="list"><strong>{{note.Titles}}</strong><br>{{note.Notes}}</li>
-            <a href ="/notes/edit/{{note.No}}"
-            <button type="button" action="/add_notes/edit"class="btn btn-outline-warning" name="edit" method="POST">EDIT</button>
-            </a>
-
-            <a href="/notes/delete/{{note.No}}">
-              <button type="button" action="/notes/delete" class="btn btn-outline-danger" name="delete" method="POST">DELETE</button>
-            </a>
+                
+                <tbody>
+                  <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{note.Titles}}</td>
+                    <td>{{note.Notes}}</td>
+                    <td>
+                      <a href ="/notes/edit/{{note.No}}"
+                      <button type="button" action="/add_notes/edit/"class="btn btn-outline-warning" name="edit" method="POST">EDIT</button>
+                      </a>
+                      
+                      <a href="/notes/delete/{{note.No}}">
+                        <button type="button" action="/notes/delete/" class="btn btn-outline-danger" id="del-btn" name="delete" method="POST">DELETE</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+                    
             {% set note_no = note.NO %}
             
             <p hidden> {{ printed_list.append(i) }} </p>
@@ -105,7 +128,6 @@
         
       {% endfor %}
     {% endfor %}
-  </ul>
+  </table>
 </div>
-
 {% endblock %}
