@@ -6,13 +6,7 @@
 
 
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for msg in messages%}
-      <p style="text-align: center; font-family:Finlandica; color:green; margin-bottom: 0px;">{{msg}}</p>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
+
 
 
 
@@ -92,42 +86,37 @@
         <th>OPTION</th>
       </tr>
     </thead>
+      {% set printed_list = [] %}
+        {% for i in range( 1, note_count+1 )%}
+          {% for note in note_list %}
+            {% if note not in printed_list and i not in printed_list %}
 
-    {% set printed_list = [] %}
-
-      {% for i in range(note_count) %}
-        {% for note in note_list %}
-        
-          {% if note not in printed_list and i not in printed_list %}
-                
                 <tbody>
                   <tr>
-                    <td>{{i+1}}</td>
-                    <td>{{note.Titles}}</td>
-                    <td>{{note.Notes}}</td>
+                    <td>{{i}}</td>
+                    <td>{{note['Title']}}</td>
+                    <td>{{note['Note']}}</td>
                     <td>
-                      <a href ="/notes/edit/{{note.No}}"
+                      <a href ="/notes/edit/{{note['No']}}"
                       <button type="button" action="/add_notes/edit/"class="btn btn-outline-warning" name="edit" method="POST">EDIT</button>
                       </a>
                       
-                      <a href="/notes/delete/{{note.No}}">
+                      <a href="/notes/delete/{{note['No']}}">
                         <button type="button" action="/notes/delete/" class="btn btn-outline-danger" id="del-btn" name="delete" method="POST">DELETE</button>
                       </a>
                     </td>
                   </tr>
                 </tbody>
-                    
-            {% set note_no = note.NO %}
-            
-            <p hidden> {{ printed_list.append(i) }} </p>
-            <p hidden> {{ printed_list.append(note) }}</p>
-            
-          {% endif %}
-          
 
-        
-      {% endfor %}
-    {% endfor %}
+                
+
+                <p hidden> {{ printed_list.append(i) }} </p>
+                <p hidden> {{ printed_list.append(note) }}</p>
+
+            {%endif %}
+          {% endfor %}
+        {%endfor%}
+      
   </table>
 </div>
 {% endblock %}

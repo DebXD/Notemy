@@ -38,7 +38,24 @@
     </div>
   </nav>
 
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, msg in messages %}
+      {% if category == 'error' %}
+        <p class="bi bi-x" style="text-align: center; font-family:Finlandica; color: red; background-color: black; margin-bottom: 0px;">{{msg}}</p>
+      {% else %}
+          <p  style="text-align: center; font-family:Finlandica; color: green; background-color: black; margin-bottom: 0px;">{{msg}}</p>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{%endwith%}
+
+
+
   {% block head %}
+
+    
+
   {% endblock %}
 
 </head>
