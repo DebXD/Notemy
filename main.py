@@ -3,9 +3,12 @@ from flask import Flask, render_template, request, redirect, flash, session
 
 from flask_sqlalchemy import SQLAlchemy
 from decouple import config
-#import psycopg2
+import psycopg2
 import bcrypt
 from cryptography.fernet import Fernet
+from datetime import datetime as dt
+from flask_wtf.csrf import CSRFProtect
+import os, hashlib
 
 import utils.validate_pass
 
@@ -17,38 +20,41 @@ app.config ['SQLALCHEMY_DATABASE_URI'] = config('DB_URI')
 
 app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = config('SECRET_KEY')
-#generate fernet key
-fernet_key = Fernet.generate_key()
-
+#app.config['WTF_CSRF_ENABLED'] = True
 db = SQLAlchemy(app)
-db.create_all()
+
+csrf = CSRFProtect(app)
+
 
 class Userdb(db.Model):
     No = db.Column(db.Integer, primary_key=True)
-    Email = db.Column(db.String(25), nullable=False)
+    Email = db.Column(db.String(30), nullable=False)
     Password = db.Column(db.LargeBinary, nullable=False)
     Username = db.Column(db.String(20), nullable = False, unique=True)
-    Fernet_key = db.Column(db.LargeBinary, unique = True)
 
-
-  
     User_notes = db.relationship("Notesdb", backref="userdb")
-    
-    def __init__(self, Email, Password, Username, Fernet_key):
+
+
+    def __init__(self, Email, Password, Username):
         self.Email = Email
         self.Password = Password
         self.Username = Username
-        self.Fernet_key = Fernet_key
 class Notesdb(db.Model):
     No = db.Column(db.Integer, primary_key=True)
     Titles = db.Column(db.LargeBinary, nullable=True)
     Notes = db.Column(db.LargeBinary, nullable=True)
+    Date = db.Column(db.String, nullable=False)
+    Key = db.Column(db.LargeBinary, unique = True)
+
     #foreign key to link userid with notes(thid userid refers to primary key "No" of userdb table)
     User_id = db.Column(db.Integer, db.ForeignKey("userdb.No"), nullable=False)
 
-    def __init__(self, Titles, Notes, User_id):
+    def __init__(self, Titles, Notes, Date, Key, User_id):
+        
         self.Titles = Titles
         self.Notes = Notes
+        self.Date = Date
+        self.Key = Key
         self.User_id = User_id
 
 
@@ -98,10 +104,12 @@ def register():
                 #generate salt for the password
                 mySalt = bcrypt.gensalt()
                 #generate hashed password with salt
+
                 hashed_password = bcrypt.hashpw(bytePwd, mySalt)
-                #saving fernet key to db
-                acc_data = Userdb(email, hashed_password, username, fernet_key)
+
+                acc_data = Userdb(email, hashed_password, username)
                 db.session.add(acc_data)
+                #commit the values to db
                 db.session.commit()
                 flash("Sign Up Successful.", category="success")
                 return redirect("/notes/")
@@ -156,7 +164,7 @@ def logout():
     return redirect("/login/")
 
 @app.route("/notes/", methods=["GET", "POST"])
-def add_notes():
+def notes_func():
     if request.method == "POST":
         title = request.form.get("Title")
         note = request.form.get("Note")
@@ -174,13 +182,22 @@ def add_notes():
                     user_no = user_data.No
 
                     if user_no is not None:
-                        key = Fernet(user_data.Fernet_key)
-                        #encrypting title and note using private key
-                        enctitle = key.encrypt(title.encode())
-                        encnote = key.encrypt(note.encode())
+                        #fetch time in str
+                        now = dt.now()
+                        date = now.strftime("%d/%m/%y")
+                        #generate a key for each note
+                        key = Fernet.generate_key()
+                        #assign the key to a variable
+                        f = Fernet(key)
+                        #encrypt title,note of note by encoding to bytes
+                        enctitle = f.encrypt(title.encode())
+                        encnote = f.encrypt(note.encode())
 
-                        full_note = Notesdb(enctitle, encnote, user_no)
+                        #pass the args to notesdb class
+                        full_note = Notesdb(enctitle, encnote, date, key, user_no)
+                        
                         db.session.add(full_note)
+                        #save it to db
                         db.session.commit()
                         flash("Note saved.", category="success")
                 
@@ -193,8 +210,7 @@ def add_notes():
             return e
         
     else:
-        note = request.form.get("Note")
-        title = request.form.get("Title")
+
         if session.get("email") is not None:
 
             email = session["email"]
@@ -202,24 +218,25 @@ def add_notes():
 
                 user_data = Userdb.query.filter_by(Email=email).first()
                 user_no = user_data.No
-                
-                note_list = Notesdb.query.filter_by(User_id=user_no).all()
+                username = user_data.Username
+                note_list = Notesdb.query.filter_by(User_id = user_data.No).all()
 
                 new_notelist = []
-                key = Fernet(user_data.Fernet_key)
-                for note in note_list:
-                    note_no = note.No
-            
-                    dectitle = key.decrypt(note.Titles).decode()
-                    decnote = key.decrypt(note.Notes).decode()
-                    notes_dic = {'No':note_no, 'Title':dectitle, 'Note':decnote}
+                for note_data in note_list:
+                    note_no = note_data.No
+                    #get the key from db
+                    key = note_data.Key
+                    # assign the key to a variable
+                    f = Fernet(key)
+                    #decrypt the title, note
+                    dectitle = f.decrypt(note_data.Titles).decode()
+                    decnote = f.decrypt(note_data.Notes).decode()
+                    #append it to list as dic ,so it can be easily retrived by html page
+                    notes_dic = {'No':note_no, 'Title':dectitle, 'Note':decnote, 'Date': note_data.Date}
                     new_notelist.append(notes_dic)
 
                 note_count = Notesdb.query.filter_by(User_id=user_no).count()
-                if note is not None:
-                    return render_template("notes.html", notes=note, note_list=new_notelist, note_count=note_count, username=email)
-                else:
-                    return render_template("notes.html", note_list=new_notelist, note_count=note_count, username=email, )
+                return render_template("notes.html", note_list=new_notelist, note_count=note_count, username=username, email=email)
             else:
                 return redirect("/login/")
         else:
@@ -227,13 +244,59 @@ def add_notes():
             return redirect("/login/")
         #passing the note param to html page, without it we can not show the notes or text.
 
+@app.route("/notes/search_results/", methods = ['POST', 'GET'])
+def search_note():
+    if request.method == "GET":
+        search = request.args.get('search')
+        if search == '':
+            flash('Empty query', category='error')
+            return redirect('/notes/')
+
+        #notes_list = Notesdb.query.filter(Notesdb.Notes.like('%' + search + '%'))
+        #notes_list = notes_list.order_by(Notesdb.Titles).all()
+        else:
+            if session.get("email") is not None:
+
+                email = session["email"]
+                if email is not None:
+                    user_data = Userdb.query.filter_by(Email=email).first()
+                    notes_list = Notesdb.query.filter_by(User_id = user_data.No).all()
+
+                    new_notelist = []
+                    for note_data in notes_list:
+                        note_no = note_data.No
+                        #get the key from db
+                        key = note_data.Key
+                        # assign the key to a variable
+                        f = Fernet(key)
+                        #decrypt the title, note
+                        dectitle = f.decrypt(note_data.Titles).decode()
+                        decnote = f.decrypt(note_data.Notes).decode()
+
+                        # combine note and title for search_text
+                        search_text = decnote.lower() + ' ' + dectitle.lower()
+                        search_term = search.lower()
+                        #find if there any maching words available
+                        if search_text.find(search_term) == -1:
+                            pass
+
+                        else:
+                            #append it to list as dic ,so it can be easily retrived by html page
+                            notes_dic = {'No':note_no, 'Title':dectitle, 'Note':decnote, 'Date': note_data.Date}
+                            new_notelist.append(notes_dic)
+
+                    if len(new_notelist) == 0:
+                        flash('No results found', category='error')
+                        return redirect('/notes/')
+                    else:
+                        return render_template('search_result.html', note_list = new_notelist, note_count = len(new_notelist) )
+
 @app.route("/notes/delete/<int:note_no>", methods=["POST", "GET"])
 def notedel(note_no):
     try:
         Notesdb.query.filter_by(No=note_no).delete()
         db.session.commit()
-    #if found_note != None:
-    #    Notesdb.query.filter_by(No=note_no).delete()
+
         flash("Note Deleted", category="error")
         return redirect("/notes/")
     except Exception as e:
@@ -245,20 +308,24 @@ def notedel(note_no):
 def note_edit(note_no):
     note_data_obj = Notesdb.query.filter_by(No=note_no).first()
     email = session["email"]
-    user_data = Userdb.query.filter_by(Email=email).first()
-    key = Fernet(user_data.Fernet_key)
+    user_data_obj = Userdb.query.filter_by(Email=email).first()
+    
+    f = Fernet(note_data_obj.Key)
 
     if request.method == "POST":
         title = request.form.get("Title")
         note = request.form.get("Note")
 
-        note_data_obj.Titles = key.encrypt(title.encode())
-        note_data_obj.Notes = key.encrypt(note.encode())
 
+        note_data_obj.Titles = f.encrypt(title.encode())
+        note_data_obj.Notes = f.encrypt(note.encode())
+        
         db.session.commit()
+        
         flash("Note Edited", category="success")
         return redirect("/notes/")
     else:
+        key = Fernet(note_data_obj.Key)
         dectitle = key.decrypt(note_data_obj.Titles).decode()
         decnote = key.decrypt(note_data_obj.Notes).decode()
         
@@ -270,4 +337,4 @@ def about():
 
 if __name__ == "__main__":
     db.create_all()
-    app.run(debug=True)
+    app.run()

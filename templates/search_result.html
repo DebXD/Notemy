@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+<div style="text-align: center; margin-top: 20px;">
+  <h2 style="font-family:Teko;">NOTES</h2>
+</div>
+
+
+
+
+<div class="container mt-3">
+    {% set printed_list = [] %}
+      {% for i in range( 1, note_count+1 )%}
+        {% for note in note_list %}
+          {% if note not in printed_list and i not in printed_list %}
+
+
+              <div class="card" style="margin-top: 30px;">
+                <div class="shadow p-3 mb-2 bg-body rounded">
+                    <div class="card-block">
+                        <h4 class="card-title">{{note['Title']}}</h4>
+                        <p class="card-text">
+                          {{note['Note']}}
+                        </p>
+          
+                        
+                        <div>
+                          <a href="/notes/edit/{{note['No']}}">
+                            <button class="btn btn-outline-warning " style="padding: 10px; margin-right: 5px"><i class="bi bi-pencil-square"></i></button>
+                          </a>
+                          <a href="/notes/delete/{{note['No']}}">
+                          
+                            <button class="btn btn-outline-danger" style="padding: 10px; margin-left: 5px;"><i class="bi bi-trash-fill"></i></button>
+
+                          </a>
+                        
+                        </div>
+
+                        <p class="card-text" style="text-align:right;">
+                          <small class="text-muted">
+                            {{note['Date']}}
+                          </small>
+                      </p>
+
+                    </div>
+                  </div>
+              </div>
+                  
+                  
+
+        <p hidden> {{ printed_list.append(i) }} </p>
+        <p hidden> {{ printed_list.append(note) }}</p>
+          {%endif %}
+        {% endfor %}
+      {%endfor%}
+</div>
+
+
+
+{% endblock %}

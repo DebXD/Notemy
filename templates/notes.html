@@ -8,19 +8,16 @@
 
 
 
+<form action ='search_results/' method="GET">
 
 
- 
-  <div class="container">
-    <a href="/logout/">
-        <button id="logout-btn" class="btn btn-outline-danger">Logout</button>
-    </a>
-    <div class="email">
-      <p>{{username}}</p>
-    </div>
-  </div>
-  
-
+<div class="input-group mb-3" style="padding: 10px;">
+  <input type="text" class="form-control" placeholder="Search" name="search" style="margin-right: 20px; border-radius: 20px;">
+    <button type="submit" class="btn btn-outline-dark" style="border-radius: 15px;">
+      <i class="bi bi-search"></i>
+    </button>
+</div>
+</form>
 
 {% endblock %}
 
@@ -29,94 +26,136 @@
 
 
 
-<div class="container mt-3">
-  <form method="POST">
-  <h2 style="text-align: center; margin-top: 60px;">ADD NOTE</h2>
+<!-- Button trigger modal -->
+
+<p id="logout-btn"; style="font-size:2em;" data-toggle="modal" data-target="#AccountModal" >
   
-  <div class="input-group mb-3">
-    <span class="input-group-text">Title</span>
-    <input type="text" class="form-control" placeholder="Title" name="Title">
-  </div>
-  <div class="input-group input-group-md mb-3">
-    <span class="input-group-text">Note</span>
-    <textarea class="form-control" id="textarea" rows="3" placeholder="Note" name="Note"></textarea>
-  </div>
-  <div style="text-align: center;">
-    <button class="btn btn-success" style="margin-top: 0px;" type="submit">Save</button>
-  </div>
-</form>
+  <i class="bi bi-person-fill">
+  </i>
+</p>
 
+<!-- Modal -->
+<div class="modal fade" id="AccountModal" tabindex="-1" role="dialog" aria-labelledby="AccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="AccountModalLabel" style="font-family: Teko;">Account Details</h5>
+        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: cyan;">Hi, {{username}}</p>
+        <p>Email : {{email}}</p>
+        
+      </div>
+      <div class="modal-footer">
+        <a href="/logout/">
+          <button type="button" class="btn btn-danger">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- 
-<form action="/add_notes/" method="POST"> 
-  <div> 
-      <input type="text" class="form-control-lg" placeholder="Search" name="Search"> 
-      <button  style="text-align:center", class="btn btn-primary" type="submit">Search</button>
+
+
+<!-- Button trigger modal -->
+
+<form method="POST">
+  <!--csrf-->
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <p id="add-note-btn" style="margin-left: 10px; margin-top : 10px; font-size:2em;" data-toggle="modal" data-target="#Modal-lg">
+    <i class="bi bi-file-earmark-plus-fill"></i>
+  </p>
+<!-- Modal -->
+<div class="modal fade modal-lg" id="Modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="ModalLabel" style="margin:auto; font-family: Teko;">ADD NOTE</h4>
+        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">TITLE:</label>
+            <input type="text" class="form-control"  placeholder="Title" name="Title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">NOTE:</label>
+            <textarea class="form-control" id="message-text" placeholder="Note" name="Note"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="submit" class="btn btn-primary" style=" margin: auto;">Save</button>
+      </div>
+    </div>
   </div>
+</div>
 </form>
 
 
-<p>{{found_note}}</p>
--->
-
-
-<!--
-<div>
-  <p style="text-align:center">Last saved Note was :<br> Title : <strong>{{titles}}</strong> <br> Note : {{notes}} </p>
-</div>
--->
 
 <div style="text-align: center; margin-top: 20px;">
-  <h3>
-    YOUR NOTES
-  </h3>
+  <h2 style="font-family:Teko;">NOTES</h2>
 </div>
 
-<div style="text-align: center;">
-<strong>Total Notes : {{note_count}}</strong>
+
 
 <div class="container mt-3">
-  <table class="table table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>N0</th>
-        <th>TITLE</th>
-        <th>NOTES</th>
-        <th>OPTION</th>
-      </tr>
-    </thead>
       {% set printed_list = [] %}
         {% for i in range( 1, note_count+1 )%}
           {% for note in note_list %}
             {% if note not in printed_list and i not in printed_list %}
+  
 
-                <tbody>
-                  <tr>
-                    <td>{{i}}</td>
-                    <td>{{note['Title']}}</td>
-                    <td>{{note['Note']}}</td>
-                    <td>
-                      <a href ="/notes/edit/{{note['No']}}"
-                      <button type="button" action="/add_notes/edit/"class="btn btn-outline-warning" name="edit" method="POST">EDIT</button>
-                      </a>
-                      
-                      <a href="/notes/delete/{{note['No']}}">
-                        <button type="button" action="/notes/delete/" class="btn btn-outline-danger" id="del-btn" name="delete" method="POST">DELETE</button>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
+                <div class="card" style="margin-top: 30px;">
+                  <div class="shadow p-3 mb-2 bg-body rounded">
+                      <div class="card-block">
+                          <h4 class="card-title">{{note['Title']}}</h4>
+                          <p class="card-text">
+                            {{note['Note']}}
+                          </p>
+            
+                          
+                          <div>
+                            <a href="/notes/edit/{{note['No']}}">
+                              <button class="btn btn-outline-warning " style="padding: 10px; margin-right: 5px"><i class="bi bi-pencil-square"></i></button>
+                            </a>
+                            <a href="/notes/delete/{{note['No']}}">
+                            
+                              <button class="btn btn-outline-danger" style="padding: 10px; margin-left: 5px;"><i class="bi bi-trash-fill"></i></button>
 
-                
+                            </a>
+                          
+                          </div>
 
-                <p hidden> {{ printed_list.append(i) }} </p>
-                <p hidden> {{ printed_list.append(note) }}</p>
+                          <p class="card-text" style="text-align:right;">
+                            <small class="text-muted">
+                              {{note['Date']}}
+                            </small>
+                        </p>
 
+                      </div>
+                    </div>
+                </div>
+                    
+                    
+
+          <p hidden> {{ printed_list.append(i) }} </p>
+          <p hidden> {{ printed_list.append(note) }}</p>
             {%endif %}
           {% endfor %}
         {%endfor%}
-      
-  </table>
 </div>
+
+
 {% endblock %}

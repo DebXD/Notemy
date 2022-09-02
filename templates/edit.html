@@ -20,26 +20,42 @@
 
 {%block body %}
 <div class="bg-img">
-<div class="container mt-3">
+<div class="container mt-3" style="text-align: center;">
   <form method="POST">
-  <h2 style="text-align: center;">EDIT NOTE</h2>
-  
-  <div class="input-group mb-3">
-    <span class="input-group-text">Title</span>
-    <input type="text" class="form-control" name="Title" value="{{title}}">
-  </div>
-  <div class="input-group input-group-md mb-3">
-    <span class="input-group-text">Note</span>
-    <textarea class="form-control" id="textarea" rows="3" name="Note">{{note}}</textarea>
-  </div>
-  <div style="text-align: center;">
+    <h2 style="text-align: center; font-family: Teko;">EDIT NOTE</h2>
+   <!--csrf-->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="input-group mb-3">
+      <span class="input-group-text">TITLE</span>
+      <input type="text" class="form-control" name="Title" value="{{title}}">
+    </div>
+
+    <div class="input-group input-group-md mb-3">
+      <span class="input-group-text">Note</span>
+      <textarea class="form-control" id="textarea" rows="5" name="Note">{{note}}</textarea>
+    </div>
+
+
+ 
+
+
+
+
+
+   
     <a href="/notes/">
-    <button class="btn btn-success" style="margin-top: 0px;" type="submit">Save</button>
+      <button class="btn btn-outline-success" style="margin : auto; border-radius: 10px;" type="submit">Save</button>
     </a>
+
+  </form>
+    <a href="/notes/">
+      <button class="btn btn-outline-secondary" background-color: black; style="margin : auto; border-radius: 15px; margin-top: 10px;">Close</button>
+    </a>
+
+
   </div>
-</form>
 
 </div>
-</div>
+
 
 {% endblock %}

@@ -29,7 +29,10 @@
 <div class="bg-img">
   <div class="container-sm">
     <form method="POST">
+
       <h2 style="text-align: center; color: white;">Login</h2>
+      <!--csrf-->
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
         <div class="col-lg-4">
           <label class="form-label" style="color: white;">Email</label>
