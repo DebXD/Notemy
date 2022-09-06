@@ -8,7 +8,7 @@ import bcrypt
 from cryptography.fernet import Fernet
 from datetime import datetime as dt
 from flask_wtf.csrf import CSRFProtect
-import os, hashlib
+import os
 
 import utils.validate_pass
 
@@ -337,4 +337,4 @@ def about():
 
 if __name__ == "__main__":
     db.create_all()
-    app.run()
+    app.run(port=os.getenv("PORT", default=5000))
