@@ -1,12 +1,12 @@
 # Notemy
 
-A Note webapp Based on Python Flask Framework
+A Note webapp Based on Python Flask Framework, Made for Storing Notes securely.
 - https://notemy.deta.dev/
 - https://notemy.up.railway.app/
 # Deploy Locally :
 ```
     # clone repo
-    git clone https://github.com/DebXD/notemy && cd notemy
+    git clone https://github.com/DebXD/Notemy && cd Notemy
     
     # create virtual environment
     python3 -m venv notemy-env
@@ -21,6 +21,8 @@ A Note webapp Based on Python Flask Framework
     
     # run the app
     python3 app.py
+    	# or
+    python3 main.py
  ```
 
 # Deploy on Cloud :
