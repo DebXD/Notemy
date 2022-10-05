@@ -119,24 +119,15 @@
 
                 <div class="card" style="margin-top: 30px;">
                   <div class="shadow p-3 mb-2 bg-body rounded">
+                    <a href="/notes/detail/{{note['No']}}/">
                       <div class="card-block">
-                          <h4 class="card-title">{{note['Title']}}</h4>
-                          <p class="card-text">
+                          <h4 style="color: black;" id='title' class="card-title">{{note['Title']}}</h4>
+                          <p style="color: black;" id='note' class="card-text" >
                             {{note['Note']}}
                           </p>
             
                           
-                          <div>
-                            <a style='text-decoration:none;' href="/notes/edit/{{note['No']}}">
-                              <button class="btn btn-outline-warning " style="padding: 10px; margin-right: 5px"><i class="bi bi-pencil-square"></i></button>
-                            </a>
-                            <a style='text-decoration:none;' href="/notes/delete/{{note['No']}}">
-                            
-                              <button class="btn btn-outline-danger" style="padding: 10px; margin-left: 5px;"><i class="bi bi-trash-fill"></i></button>
 
-                            </a>
-                          
-                          </div>
 
                           <p class="card-text" style="text-align:right;">
                             <small class="text-muted">
@@ -145,6 +136,7 @@
                         </p>
 
                       </div>
+                    </a>
                     </div>
                 </div>
                     

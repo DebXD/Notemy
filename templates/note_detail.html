@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head%}
+
+{% endblock %}
+
+{%block body %}
+<div class="bg-img">
+<div class="container mt-3" style="text-align: center;">
+  <form method="">
+    <h2 style="text-align: center; font-family: Teko;">NOTE</h2>
+   <!--csrf-->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="input-group mb-3">
+      <span class="input-group-text">TITLE</span>
+      <input type="text" class="form-control" name="Title" value="{{title}}">
+    </div>
+
+    <div class="input-group input-group-md mb-3">
+      <span class="input-group-text">Note</span>
+      <textarea class="form-control" id="textarea" rows="10" name="Note">{{note}}</textarea>
+    </div>
+
+
+ 
+
+
+
+
+
+   
+    <div>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="/notes/edit/{{note_no}}/">Update</a>
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="/notes/delete/{{note_no}}/">Delete</a>
+    </div>
+
+
+  </div>
+
+</div>
+
+
+{% endblock %}

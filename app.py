@@ -219,7 +219,8 @@ def notes_func():
                 user_data = Userdb.query.filter_by(Email=email).first()
                 user_no = user_data.No
                 username = user_data.Username
-                note_list = Notesdb.query.filter_by(User_id = user_data.No).all()
+                note_list = Notesdb.query.filter_by(User_id = user_data.No).order_by(Notesdb.No)
+                #note_list = db.query(Notesdb.User_id).distinct(user_data.No) \ .order_by(Notesdb.Date)
 
                 new_notelist = []
                 for note_data in note_list:
@@ -243,6 +244,17 @@ def notes_func():
             flash("Session has expired! Please Sign Up or Login.", category="error")
             return redirect("/login/")
         #passing the note param to html page, without it we can not show the notes or text.
+@app.route("/notes/detail/<int:note_no>/", methods=["POST", "GET"])
+def note_detail(note_no):
+    note_data_obj = Notesdb.query.filter_by(No=note_no).first()
+    email = session["email"]
+    user_data_obj = Userdb.query.filter_by(Email=email).first()
+    f = Fernet(note_data_obj.Key)
+    key = Fernet(note_data_obj.Key)
+    dectitle = key.decrypt(note_data_obj.Titles).decode()
+    decnote = key.decrypt(note_data_obj.Notes).decode()
+    return render_template('note_detail.html',title=dectitle, note=decnote, note_no=note_no)
+
 
 @app.route("/notes/search_results/", methods = ['POST', 'GET'])
 def search_note():
@@ -291,7 +303,7 @@ def search_note():
                     else:
                         return render_template('search_result.html', note_list = new_notelist, note_count = len(new_notelist) )
 
-@app.route("/notes/delete/<int:note_no>", methods=["POST", "GET"])
+@app.route("/notes/delete/<int:note_no>/", methods=["POST", "GET"])
 def notedel(note_no):
     try:
         Notesdb.query.filter_by(No=note_no).delete()
@@ -304,7 +316,7 @@ def notedel(note_no):
         return ("/notes/")
 
 
-@app.route("/notes/edit/<int:note_no>", methods=["POST", "GET"])
+@app.route("/notes/edit/<int:note_no>/", methods=["POST", "GET"])
 def note_edit(note_no):
     note_data_obj = Notesdb.query.filter_by(No=note_no).first()
     email = session["email"]
@@ -337,4 +349,4 @@ def about():
 
 if __name__ == "__main__":
     db.create_all()
-    app.run(port=os.getenv("PORT", default=5000))
+    app.run(port=os.getenv("PORT", default=8000))
