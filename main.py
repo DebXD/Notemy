@@ -62,7 +62,10 @@ db.create_all()
     
    
 @app.route("/")
-def hello_world():
+def home():
+    if session.get("email") is not None:
+        return redirect("/notes/")
+
     return render_template("index.html")
 
 @app.route("/register/", methods=["GET","POST"])
