@@ -122,9 +122,7 @@
                     <a href="/notes/detail/{{note['No']}}/">
                       <div class="card-block">
                           <h4 style="color: black;" id='title' class="card-title">{{note['Title']}}</h4>
-                          <p style="color: black;" id='note' class="card-text" >
-                            {{note['Note']}}
-                          </p>
+                          <p style="color: black;" id='note' class="card-text" >{{note['Note'] |truncate(50,true,'...') }}</p>
             
                           
 

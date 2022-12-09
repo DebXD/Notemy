@@ -1,87 +1,106 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block head %}
 
-{% block head %}
-
-
-<link rel="stylesheet" 
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
-      crossorigin="anonymous">
-<link rel="stylesheet" 
-      href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
-      integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" 
-      crossorigin="anonymous">
-
-
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+  integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+  crossorigin="anonymous"
+/>
 
 <style>
-  .bg-img{
-    background-image: url("/static/img/notes-bg.jpg") ;
+  .bg-img {
+    background-image: url("/static/img/notes-bg.jpg");
     background-color: black;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
-
-
-
   }
-  .navbar{
+  .navbar {
     background-image: inherit;
-
   }
- 
-
 </style>
-{% endblock %}
-
-{% block body%}
+{% endblock %} {% block body%}
 
 <div class="bg-img">
   <div class="container-sm">
     <form method="POST">
-      <h2 style="text-align: center; color: white;">Register</h2>
+      <h2 style="text-align: center; color: white">Register</h2>
       <!--csrf-->
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <div class="col-lg-4">
-          <label class="form-label" style="color: white;">Username</label>
-          <input type="text" class="form-control" placeholder="Username" name="username" required>
-        </div>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <div class="col-lg-4">
+        <label class="form-label" style="color: white">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          name="username"
+          required
+        />
+      </div>
 
-        <div class="col-lg-4">
-          <label class="form-label" style="color: white;">Email</label>
-          <input type="email" class="form-control" placeholder="Email" name="email" required>
-          <p>We Never share your email with anyone else!</p>
-        </div>
-    
-        <div class="col-lg-4">
-          <label class="form-label" style="color: white;">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password" name="password" data-toggle="password" required>
-            <span class="input-group-text">
-              <i class="fa fa-eye"></i>
-            </span>
-            <p>Password length must be 8 or more.<br>
-               Use atleast a Number and a Capital letter.</p>
+      <div class="col-lg-4">
+        <label class="form-label" style="color: white">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Email"
+          name="email"
+          required
+        />
+        <p style="color: white">We Never share your email with anyone else!</p>
+      </div>
 
+      <div class="col-lg-4">
+        <label class="form-label" style="color: white">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Password"
+          name="password"
+          data-toggle="password"
+          required
+        />
+        <span class="input-group-text">
+          <i class="fa fa-eye"></i>
+        </span>
+        <p style="color: white">
+          Password length must be 8 or more.<br />
+          Use atleast a Number and a Capital letter.
+        </p>
 
-          <button  style="text-align:center", class="btn btn-success" type="submit">Submit</button>
-        </div>
+        <button
+          style="text-align: center"
+          ,
+          class="btn btn-success"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
 
-        <div class="col-lg-4">
-          <p class="paragraph" style="color: white;"> Already have an account!<br>
-            <a href="/login/"><strong>Login</strong></a> here.
-          </p>
-        </div>
-    
+      <div class="col-lg-4">
+        <p class="paragraph" style="color: white">
+          Already have an account!<br />
+          <a href="/login/"><strong>Login</strong></a> here.
+        </p>
+      </div>
     </form>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-        crossorigin="anonymous">
-</script>
-<script  src="/static/js/bootstrap-show-password.js"></script>
-
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"
+></script>
+<script src="/static/js/bootstrap-show-password.js"></script>
 
 {% endblock %}

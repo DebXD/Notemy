@@ -1,43 +1,55 @@
-
-{% extends "base.html" %}
-
-{% block head %}
+{% extends "base.html" %} {% block head %}
 <style>
-    header, body {
-        background: #252a1d url('static/img/index-bg.png');
-        color : white;
-    }
+  header,
+  body {
+    background: #252a1d url("static/img/index-bg.png");
+    color: white;
+  }
 </style>
 
-{% block title%}{% endblock %}
-
-
-{% endblock %}
-
-{% block body %}
-
+{% block title%}{% endblock %} {% endblock %} {% block body %}
 
 <div class="section">
- 
-  <div class=" w3-row index-btn">
+  <div class="w3-row index-btn">
     <h4>Welcome To Notemy</h4>
     <a href="/register/">
-      <button  style="text-align:center; color: white; margin-bottom: 10px;  margin-right: 10px;" class="btn btn-outline-dark;" type="submit">Sign Up</button>
+      <button
+        style="
+          text-align: center;
+          color: white;
+          margin-bottom: 10px;
+          margin-right: 10px;
+        "
+        class="btn btn-outline-dark;"
+        type="submit"
+      >
+        Sign Up
+      </button>
     </a>
     <a href="/login/">
-      <button  style="text-align:center; color: white; margin-bottom: 10px; margin-right: 10px;", class="btn btn-outline-red;" type="submit">Login</button>
+      <button
+        style="
+          text-align: center;
+          color: white;
+          margin-bottom: 10px;
+          margin-right: 10px;
+        "
+        ,
+        class="btn btn-outline-red;"
+        type="submit"
+      >
+        Login
+      </button>
     </a>
     <p>Store Your Notes securely.</p>
   </div>
 
-  <div class="video-container">
+  <!-- <div class="video-container">
    
       <video autoplay loop muted src="https://polished-disk-a3d6.shubhamxd.workers.dev/0:/video_2022-07-14_17-38-50_7120284162574354432.mp4" type="video/mp4"  id="video">
 
       </video>
-  </div>
-
+  </div> -->
 </div>
-
 
 {% endblock %}
