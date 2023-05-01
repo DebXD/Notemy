@@ -7,7 +7,7 @@ colorama==0.4.5
 cryptography==39.0.1
 dill==0.3.5.1
 flake8==4.0.1
-Flask==2.1.2
+Flask==2.3.2
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.2
 isort==5.10.1
