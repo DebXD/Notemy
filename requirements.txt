@@ -29,7 +29,7 @@ SQLAlchemy==1.4.37
 toml==0.10.2
 tomli==2.0.1
 tomlkit==0.11.0
-Werkzeug==2.2.3
+Werkzeug==2.3.3
 wrapt==1.14.1
 Flask-WTF==1.0.1
 gunicorn==20.1.0
